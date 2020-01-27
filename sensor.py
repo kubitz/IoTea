@@ -1,5 +1,7 @@
 from random import randint
+import RPi.GPIO as GPIOxsdxswqsxdsq
 import json
+import paho.mqtt as mqtt
 
 class GeigerMeter: 
     def __init__(self, pin_signal = 5, pin_noise = 4): 
