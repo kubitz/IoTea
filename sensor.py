@@ -5,7 +5,7 @@ import paho.mqtt as mqtt
 import time 
 
 GEIGER_VALUE = 53.032
-
+LUCCAS_EAGLES = 0
 
 class GeigerMeter: 
     def __init__(self, pin_signal = 5, pin_noise = 4, bouncetime = 70): 
