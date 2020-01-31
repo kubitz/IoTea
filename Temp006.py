@@ -47,6 +47,7 @@ class Temp():
         obj_vol = self.sensor.readS16BE(object_vol_reg)
         obj_vol *= 156.25         # 156.25 nV per bit
         obj_vol /= 1000000000.0   # Convert nV to volts
+        retrun obj_vol
     
     def get_temp(self):
         obj_vol = self.read_obj_vol()
