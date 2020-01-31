@@ -4,7 +4,7 @@ import math
 pin_address = 0x40  #adress location for RPi I2C
 config_reg = 0x02    #register address for configuration data
 object_vol_reg = 0x0
-ambient_reg
+ambient_reg = 0x01
 config_val = 0x79  #Device in active mode, output low (I think), 16 samples
 
 B0   = -0.0000294
@@ -58,3 +58,4 @@ class Temp():
 mytemp = Temp()
 mytemp.begin()
 mytemp.get_temp()
+print(temp)
