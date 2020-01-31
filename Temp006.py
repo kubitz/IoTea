@@ -1,9 +1,11 @@
 import Adafruit_GPIO.I2C as I2C
-class Temp():
+
     
-    pin_address = 0x40  #adress location for RPi I2C
-    config_reg = 0x02    #register address for configuration data
-    object_vol = 0x0
+pin_address = 0x40  #adress location for RPi I2C
+config_reg = 0x02    #register address for configuration data
+object_vol = 0x0
+
+class Temp():
 
     #Device in active mode, output low (I think), 16 samples
     config_val = 0x79
