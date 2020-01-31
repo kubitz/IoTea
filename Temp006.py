@@ -43,7 +43,7 @@ class Temp():
         die_temp += 273.14         # Convert to kelvin
         return die_temp
     
-    def read_obj_vol(self)
+    def read_obj_vol(self):
         obj_vol = self.sensor.readS16BE(object_vol_reg)
         obj_vol *= 156.25         # 156.25 nV per bit
         obj_vol /= 1000000000.0   # Convert nV to volts
