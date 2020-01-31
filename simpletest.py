@@ -27,7 +27,7 @@ import time
 
 # Note that this will work with the TMP007 sensor too!  Just use the TMP006
 # class below as-is.
-import Adafruit_TMP.TMP006 as TMP006
+import /home/pi/Adafruit_Python_TMP/Adafruit_TMP.TMP006 as TMP006
 
 
 # Define a function to convert celsius to fahrenheit.
