@@ -28,7 +28,7 @@ class Temp():
 
     def calc_temp(self, Tdie, Vobj):      
         Tdie_ref = Tdie - TREF
-        S = 1.0 + A1*Tdie_ref + _A2*math.pow(Tdie_ref, 2.0)
+        S = 1.0 + A1*Tdie_ref + A2*math.pow(Tdie_ref, 2.0)
         S *= S0
         S /= 10000000.0
         S /= 10000000.0
