@@ -9,8 +9,8 @@ class Temp():
     config_val = 0x79
 
     def __init__(self):
-        self.temperature
-        self.time
+        self.temperature = 0
+        self.time = 0
         self.sensor = I2C.get_i2c_device(pin_address, **kwargs)
 
     def begin(self):
