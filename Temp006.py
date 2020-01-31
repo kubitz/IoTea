@@ -26,7 +26,7 @@ class Temp():
     def begin(self):
         self.sensor.write16(config_reg, config_val)
 
-    def calc_temp(self, TDie, Vobj):      
+    def calc_temp(self, Tdie, Vobj):      
         Tdie_ref = Tdie - TREF
         S = 1.0 + A1*Tdie_ref + _A2*math.pow(Tdie_ref, 2.0)
         S *= S0
