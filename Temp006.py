@@ -51,7 +51,7 @@ class Temp():
     def get_temp(self):
         obj_vol = read_obj_vol()
         die_temp = read_die_temp()
-        temp = calc_temp(TDie, Vobj)
+        temp = calc_temp(die_temp, obj_vol)
         return temp
 
        
