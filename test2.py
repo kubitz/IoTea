@@ -169,5 +169,5 @@ tmp = TMP006()
 tmp.begin()
 
 for i in range(10):
-    print(tmp.readObjTemperature())
+    print(tmp.readObjTempC())
     
