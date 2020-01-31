@@ -18,7 +18,7 @@ class Temp():
     
     def get_temp(self):
         ambient = self.sensor.readS16BE(object_vol)
-        print ambient
+        print(ambient)
 
 
 mytemp = Temp()
