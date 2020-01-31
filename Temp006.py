@@ -49,9 +49,9 @@ class Temp():
         obj_vol /= 1000000000.0   # Convert nV to volts
     
     def get_temp(self):
-        obj_vol = read_obj_vol()
-        die_temp = read_die_temp()
-        temp = calc_temp(die_temp, obj_vol)
+        obj_vol = self.read_obj_vol()
+        die_temp = self.read_die_temp()
+        temp = self.calc_temp(die_temp, obj_vol)
         return temp
 
        
