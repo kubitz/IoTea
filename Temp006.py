@@ -4,12 +4,13 @@ import Adafruit_GPIO.I2C as I2C
 pin_address = 0x40  #adress location for RPi I2C
 config_reg = 0x02    #register address for configuration data
 object_vol = 0x0
+ 
+config_val = 0x79  #Device in active mode, output low (I think), 16 samples
+
 
 class Temp():
 
-    #Device in active mode, output low (I think), 16 samples
-    config_val = 0x79
-
+ 
     def __init__(self):
         self.temperature = 0
         self.time = 0
