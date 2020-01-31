@@ -12,8 +12,7 @@ client = speech.SpeechClient()
 # The name of the audio file to transcribe
 file_name = os.path.join(
     os.path.dirname(__file__),
-    'resources',
-    'audio.raw')
+    'test.wav')
 
 # Loads the audio into memory
 with io.open(file_name, 'rb') as audio_file:
@@ -22,7 +21,7 @@ with io.open(file_name, 'rb') as audio_file:
 
 config = types.RecognitionConfig(
     encoding=enums.RecognitionConfig.AudioEncoding.LINEAR16,
-    sample_rate_hertz=16000,
+    sample_rate_hertz=8000,
     language_code='en-US')
 
 # Detects speech in the audio file
