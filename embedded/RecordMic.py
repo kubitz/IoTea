@@ -52,7 +52,7 @@ class microphone():
 
     def _generate_wav_file(self): 
         file_number = self.record_counter%5 
-        wavefile=wave.open(wav_output_filename.format(file_number),'wb')
+        wavefile=wave.open(self.wav_output_filename.format(file_number),'wb')
         wavefile.setnchannels(self.channel_number)
         wavefile.setsampwidth(self.audio.get_sample_size(self.format))
         wavefile.setframerate(self.samp_rate)
