@@ -36,7 +36,7 @@ class microphone():
         self._frames=[]
         _chunk_number = int((self.samp_rate/self.chunk)*self.record_secs)
 
-        for ii in range(0,_chunk_number):N
+        for ii in range(0,_chunk_number):
             data=self.stream.read(self.chunk, exception_on_overflow = False)
             self._frames.append(data)
 
