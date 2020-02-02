@@ -1,6 +1,6 @@
 
 import pyaudio
-import waves
+import wave
 import os
 
 class microphone(): 
