@@ -19,7 +19,7 @@ stream=audio.open(format = form_1,rate=samp_rate,channels=chans, input_device_in
 print("recording")
 frames=[]
 
-for ii in range(0,int((samp_rate/chunk)*record_secs)):
+for ii in range(0,int((samp_rate/chunk)*record_secs)):N
     data=stream.read(chunk,exception_on_overflow = False)
     frames.append(data)
 
