@@ -7,7 +7,7 @@ form_1 = pyaudio.paInt16
 chans=1
 samp_rate = 44100
 chunk = 4096
-record_secs = 1     #record time
+record_secs = 10     #record time
 dev_index = 2
 wav_output_filename = 'test1.wav'
 
