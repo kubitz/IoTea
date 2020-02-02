@@ -2,8 +2,9 @@
 import pyaudio
 import wave
 import os
+import threading
 
-class microphone(): 
+class Microphone(): 
     def __init__(self, verbose = 0, record_secs = 3): 
         self.verbose = verbose
         self.format = pyaudio.paInt16
@@ -60,5 +61,5 @@ class microphone():
         wavefile.close()
 
 if __name__ == "__main__":
-    microphone = microphone(verbose=1)
-    microphone.record()
+    mic = Microphone(verbose=1)
+    mic.record()
