@@ -75,9 +75,11 @@ class SpeechToText():
 if __name__ == "__main__":
     t1_start = perf_counter()  
     speech_to_text = SpeechToText()
+    twitter_bot = TwitterBot()
+
     result = speech_to_text.get_text(0)
     sentiments = speech_to_text.get_sentiment(result)
-
+    twitter_bot.send_tweet(result[0][0])
     t1_stop = perf_counter() 
     print("Elapsed time during the whole program in seconds:", t1_stop-t1_start)
     print(sentiments)
