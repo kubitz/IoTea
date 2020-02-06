@@ -94,4 +94,4 @@ class Microphone():
 
 if __name__ == "__main__":
     mic = Microphone(verbose=1)
-    mic.record(5)
+    mic.record_to_file(15)

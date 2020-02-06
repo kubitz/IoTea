@@ -5,11 +5,11 @@ from google.cloud.speech import enums
 from google.cloud.speech import types
 from time import perf_counter 
 from textblob import TextBlob
+import TwitterBot
 
 
 
-
-credential_path = r"C:\Users\noe09\Documents\GOOGLE_CLOUD\ven\apikey.json"
+credential_path = r"/home/pi/embedded_imperial/embedded/apikey.json"
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = credential_path
 
 class SpeechToText(): 
