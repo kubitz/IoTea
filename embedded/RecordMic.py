@@ -23,15 +23,16 @@ class Microphone():
             Output: 1 if max volume is above set threshold. 
         """
         self.record(4)
-        is_talking = self.get_volume(self._frames) > self.THRESHOLD_SILENCE
+        is_talking = max(self._frames) > self.THRESHOLD_SILENCE
         return is_talking
 
-    def get_volume(self, sound_data): 
+    def get_volume(self): 
         """ Returns maximum volume during the recording. 
             Input : array containing sound data
             Output: non-normalised maximum volume of clip
         """
-        return max(sound_data)
+        self.record(4)
+        return max(self._frames)
 
 
     def record(self, record_secs): 
@@ -94,4 +95,4 @@ class Microphone():
 
 if __name__ == "__main__":
     mic = Microphone(verbose=1)
-    mic.record_to_file(15)
+    mic.get_volume()
