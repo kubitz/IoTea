@@ -11,12 +11,34 @@ class Microphone():
         self.channel_number = 1
         self.samp_rate = 44100
         self.chunk = 4096
-        self.record_secs = record_secs   
         self.dev_index = 2
         self.wav_output_filename = 'record_{}.wav'
-        self.record_counter = 0; 
+        self.record_counter = 0
+        self.THRESHOLD_SILENCE = 100
 
-    def record(self): 
+    def is_talking(self): 
+        """ Records a 4 seconds clips
+            Returns 1 if max volume of sound data is above set threshold.
+            Input: array containing sound data
+            Output: 1 if max volume is above set threshold. 
+        """
+        self.record(4)
+        is_talking = self.get_volume(self._frames) > self.THRESHOLD_SILENCE
+        return is_talking
+
+    def get_volume(self, sound_data): 
+        """ Returns maximum volume during the recording. 
+            Input : array containing sound data
+            Output: non-normalised maximum volume of clip
+        """
+        return max(sound_data)
+
+
+    def record(self, record_secs): 
+        """ Records audio stream 
+            Input: number of seconds of the recording
+            Output: None. Changes the class attribute self.stream
+        """
         self.audio = pyaudio.PyAudio()
 
         try: 
@@ -29,13 +51,13 @@ class Microphone():
                 frames_per_buffer=self.chunk)
 
             if self.verbose: 
-                print("Recording for {} ...".format(self.record_secs))
+                print("Recording for {} ...".format(record_secs))
         
         except Exception as e: 
             print(e)
 
         self._frames=[]
-        _chunk_number = int((self.samp_rate/self.chunk)*self.record_secs)
+        _chunk_number = int((self.samp_rate/self.chunk)*record_secs)
 
         for ii in range(0,_chunk_number):
             data=self.stream.read(self.chunk, exception_on_overflow = False)
@@ -43,15 +65,25 @@ class Microphone():
 
         self.stream.stop_stream()
         self.stream.close()
-        self.audio.terminate()
-        
+        self.audio.terminate()  
+
         if self.verbose: 
             print("finished recording")
 
+    def record_to_file(self, record_secs):
+        """ Records an audio and saves it to a .wav file
+            Input: number of seconds of the recording
+            Output: saved .wav file
+        """
+        self.record(record_secs) 
         self._generate_wav_file()
         self.record_counter += 1
 
     def _generate_wav_file(self): 
+        """ Creates a .wav file from the an audio stream with filename record_#.wav
+            Input: audio stream from class attribute
+            Output: saved .wav file with record_#.wav filename
+        """
         file_number = self.record_counter%5 
         wavefile=wave.open(self.wav_output_filename.format(file_number),'wb')
         wavefile.setnchannels(self.channel_number)
@@ -62,4 +94,4 @@ class Microphone():
 
 if __name__ == "__main__":
     mic = Microphone(verbose=1)
-    mic.record()
+    mic.record(5)
