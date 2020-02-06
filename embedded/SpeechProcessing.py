@@ -5,7 +5,7 @@ from google.cloud.speech import enums
 from google.cloud.speech import types
 from time import perf_counter 
 from textblob import TextBlob
-import TwitterBot
+from TwitterBot import TwitterBot
 
 
 
@@ -79,7 +79,7 @@ if __name__ == "__main__":
 
     result = speech_to_text.get_text(0)
     sentiments = speech_to_text.get_sentiment(result)
-    twitter_bot.send_tweet(result[0][0])
+    twitter_bot.send_tweet(sentiments[0][0])
     t1_stop = perf_counter() 
     print("Elapsed time during the whole program in seconds:", t1_stop-t1_start)
     print(sentiments)
