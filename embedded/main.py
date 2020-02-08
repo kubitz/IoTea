@@ -45,8 +45,9 @@ if __name__ == "__main__":
             print("Volume detected!")
             microphone.record_to_file(15)
             conversation  = speech_to_text.get_text(microphone.record_counter%5)
-            sentiments = speech_to_text.get_sentiment(conversation)
-            twitter_bot.send_tweet(sentiments)
+            if conversation is not None: 
+                sentiments = speech_to_text.get_sentiment(conversation)
+                twitter_bot.send_tweet(sentiments[0][0])
 
 
 

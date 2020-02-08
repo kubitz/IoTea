@@ -94,6 +94,7 @@ class Microphone():
             Output: saved .wav file with record_#.wav filename
         """
         file_number = self.record_counter%5 
+        print("saved to: ",self.wav_output_filename.format(file_number))
         wavefile=wave.open(self.wav_output_filename.format(file_number),'wb')
         wavefile.setnchannels(self.channel_number)
         wavefile.setsampwidth(self.audio.get_sample_size(self.format))
