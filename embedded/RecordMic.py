@@ -26,7 +26,12 @@ class Microphone():
             Input: array containing sound data
             Output: 1 if max volume is above set threshold. 
         """
-        return (self.get_volume() > VOLUME_THRESHOLD)
+        volume = self.get_volume()
+        if self.verbose: 
+            print("volume: ", volume)
+        if volume > VOLUME_THRESHOLD: 
+            return False
+        return True
 
     def get_volume(self): 
         """ Returns maximum volume during the recording. 
