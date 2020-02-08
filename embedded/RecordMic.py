@@ -4,11 +4,9 @@ import pyaudio
 import wave
 import os
 import threading
-import math
-import struct
 import numpy
-SHORT_NORMALIZE = (1.0/32768.0)
 
+VOLUME_THRESHOLD = 80
 
 class Microphone(): 
     def __init__(self, verbose = 0, record_secs = 3): 
@@ -22,36 +20,20 @@ class Microphone():
         self.record_counter = 0
         self.THRESHOLD_SILENCE = 100
 
-    def rms(self, frame):
-        count = len(frame)/swidth
-        format = "%dh"%(count)
-        # short is 16 bit int
-        shorts = struct.unpack( format, max(frame) )
-
-        sum_squares = 0.0
-        for sample in shorts:
-            n = sample * SHORT_NORMALIZE
-            sum_squares += n*n
-        # compute the rms 
-        rms = math.pow(sum_squares/count,0.5);
-        return rms * 1000
-
     def is_talking(self): 
         """ Records a 4 seconds clips
             Returns 1 if max volume of sound data is above set threshold.
             Input: array containing sound data
             Output: 1 if max volume is above set threshold. 
         """
-        self.record(4)
-        is_talking = max(self._frames) > self.THRESHOLD_SILENCE
-        return is_talking
+        return (self.get_volume() > VOLUME_THRESHOLD)
 
     def get_volume(self): 
         """ Returns maximum volume during the recording. 
             Input : array containing sound data
             Output: non-normalised maximum volume of clip
         """
-        self.record(2)
+        self.record(3)
         decoded = numpy.frombuffer(max(self._frames), numpy.int16)
         return max(numpy.absolute(decoded))
 
