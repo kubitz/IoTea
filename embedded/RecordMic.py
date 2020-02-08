@@ -3,6 +3,11 @@ import pyaudio
 import wave
 import os
 import threading
+import math
+import struct
+
+SHORT_NORMALIZE = (1.0/32768.0)
+
 
 class Microphone(): 
     def __init__(self, verbose = 0, record_secs = 3): 
@@ -15,6 +20,20 @@ class Microphone():
         self.wav_output_filename = 'record_{}.wav'
         self.record_counter = 0
         self.THRESHOLD_SILENCE = 100
+
+    def rms(self, frame):
+        count = len(frame)/swidth
+        format = "%dh"%(count)
+        # short is 16 bit int
+        shorts = struct.unpack( format, frame )
+
+        sum_squares = 0.0
+        for sample in shorts:
+            n = sample * SHORT_NORMALIZE
+            sum_squares += n*n
+        # compute the rms 
+        rms = math.pow(sum_squares/count,0.5);
+        return rms * 1000
 
     def is_talking(self): 
         """ Records a 4 seconds clips
@@ -32,7 +51,7 @@ class Microphone():
             Output: non-normalised maximum volume of clip
         """
         self.record(4)
-        return max(self._frames)
+        return self.rms(self._frames)
 
 
     def record(self, record_secs): 
