@@ -1,4 +1,5 @@
 
+
 import pyaudio
 import wave
 import os
@@ -50,9 +51,9 @@ class Microphone():
             Input : array containing sound data
             Output: non-normalised maximum volume of clip
         """
-        self.record(4)
-        decoded = numpy.fromstring(max(self._frames), numpy.int16)
-        return decoded
+        self.record(2)
+        decoded = numpy.frombuffer(max(self._frames), numpy.int16)
+        return max(numpy.absolute(decoded))
 
 
     def record(self, record_secs): 
@@ -115,4 +116,4 @@ class Microphone():
 
 if __name__ == "__main__":
     mic = Microphone(verbose=1)
-    mic.get_volume()
+    print(mic.get_volume())
