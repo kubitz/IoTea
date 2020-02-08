@@ -98,4 +98,5 @@ class Microphone():
 
 if __name__ == "__main__":
     mic = Microphone(verbose=1)
-    print(mic.get_volume())
+    while True: 
+        print(mic.is_talking())
