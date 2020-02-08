@@ -5,7 +5,7 @@ import os
 import threading
 import math
 import struct
-
+import numpy
 SHORT_NORMALIZE = (1.0/32768.0)
 
 
@@ -25,7 +25,7 @@ class Microphone():
         count = len(frame)/swidth
         format = "%dh"%(count)
         # short is 16 bit int
-        shorts = struct.unpack( format, frame )
+        shorts = struct.unpack( format, max(frame) )
 
         sum_squares = 0.0
         for sample in shorts:
@@ -51,7 +51,8 @@ class Microphone():
             Output: non-normalised maximum volume of clip
         """
         self.record(4)
-        return self.rms(self._frames)
+        decoded = numpy.fromstring(max(self._frames), numpy.int16)
+        return decoded
 
 
     def record(self, record_secs): 
