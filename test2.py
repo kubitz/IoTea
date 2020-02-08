@@ -20,7 +20,7 @@
 # THE SOFTWARE.
 import logging
 import math
-
+import time
 
 # Coefficient values, found from this whitepaper:
 # http://www.ti.com/lit/ug/sbou107/sbou107.pdf
@@ -168,6 +168,7 @@ class TMP006(object):
 tmp = TMP006()
 tmp.begin()
 
-for i in range(10):
+while 1==1:
+    time.sleep(1)
     print(tmp.readObjTempC())
     

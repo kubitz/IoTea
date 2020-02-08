@@ -1,8 +1,8 @@
-import Adafruit_GPIO.I2C as I2C
-from time import gmtime, strftime
-import json
-import math
-
+import Adafruit_GPIO.I2C as I2C 
+from time import gmtime, strftime 
+import json 
+import math 
+import time
 
 pin_address = 0x40  #adress location for RPi I2C
 config_reg = 0x02    #register address for configuration data
@@ -17,7 +17,7 @@ C2   = 13.4
 TREF = 298.15
 A2   = -0.00001678
 A1   = 0.00175
-S0   = 6.4  # * 10^-14
+S0   = 7  # * 10^-14
 
 class Temp():
 
@@ -67,10 +67,9 @@ class Temp():
     def get_temp(self):
         obj_vol = self.read_obj_vol()
         die_temp = self.read_die_temp()
+        print("die temp: ",die_temp)
         temp = self.calc_temp(die_temp, obj_vol)
         
-        if temp < 0:
-            raise Exception("Negative vemperature value - do not touch sensor")
 
         return temp
 
@@ -88,7 +87,15 @@ class Temp():
 
 
 if __name__ == "__main__":
+    
+    
     mytemp = Temp()
     mytemp.begin()
-    temp = mytemp.get_temp()
-    print(temp)
+    
+    for i in range(30):
+        time.sleep(1)
+        temp = 0
+        for i in range(100):
+            temp += mytemp.get_temp()
+        temp = temp/100
+        print(temp)
