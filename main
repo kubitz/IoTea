@@ -6,9 +6,9 @@ myMQTT = MQTT()
 myTemp = Temp()
 
 
-def send_temp(period):
+def send_temp():
     temp = myTemp.read_temp()
     myMQTT.publish(temp)
-    threading.Timer(period, send_temp).start()
+    threading.Timer(3, send_temp).start()
 
-send_temp(3)
+send_temp()
