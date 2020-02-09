@@ -3,10 +3,10 @@ import paho.mqtt.client as mqtt
 class MQTT():
 
     def __init__(self):
-        client = mqtt.Client()
+        self.client = mqtt.Client()
 
 
     def publish(self, value):
-        client.connect("test.mosquitto.org", port=1883)
-        client.publish("IC.embedded/IoTea/test", str(value))
+        self.client.connect("test.mosquitto.org", port=1883)
+        self.client.publish("IC.embedded/IoTea/test", str(value))
 
