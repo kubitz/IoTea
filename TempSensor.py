@@ -49,7 +49,7 @@ class DS18B20:
             Output: list of string. Each string contains a line. 
         """
         try: 
-            f = open(device_file, 'r')
+            f = open(self.device_file, 'r')
             lines = f.readlines()
             f.close()
             return lines
