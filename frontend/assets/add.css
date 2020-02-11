@@ -1,0 +1,19 @@
+#live-update-graph{
+    width:50%;
+    float: right;
+}
+#container{
+    width: 45%;
+    padding: 2%;
+    float: left;
+}
+
+#title{
+    font-size: 7rem;
+}
+
+#display{
+    font-size: 2.8rem;
+    width: 100%;
+}
+

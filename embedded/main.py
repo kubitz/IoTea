@@ -2,7 +2,7 @@ from RecordMic import Microphone
 from TwitterBot import TwitterBot
 from SpeechProcessing import SpeechToText
 from Temp import TemperatureSensor
-import paho.mqtt.client as mqtt
+import paho.mqtt8.client as mqtt
 import ssl 
 import time
 import json
@@ -85,6 +85,7 @@ if __name__ == "__main__":
         if (time.time()- time_last_mqtt) > 60: 
             time_last_mqtt = time.time()
             json_packet = data_packet.format_mqtt_message()
+
             print("Sent MQTT package:")
             print(json_packet)
             data_packet.reinitialize_packet()
