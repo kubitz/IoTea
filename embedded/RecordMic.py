@@ -6,7 +6,7 @@ import os
 import threading
 import numpy
 
-VOLUME_THRESHOLD = 120
+VOLUME_THRESHOLD = 200
 
 class Microphone(): 
     def __init__(self, verbose = 0, record_secs = 3): 

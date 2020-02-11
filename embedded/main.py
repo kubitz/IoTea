@@ -58,7 +58,8 @@ if __name__ == "__main__":
 
 
     print("Initialisation done!!!")
-    
+    time_last_mqtt = time.time()
+    time_last_temp_read = time.time()
     while True: 
         time_start = time.time()
         if microphone.is_talking(): 
@@ -75,15 +76,15 @@ if __name__ == "__main__":
                 except: 
                     print("ERROR: Could not process the audio file \n The file probably did not contain speech.")
 
-        if (time.time() - time_start) > 10: 
-
-            if (time.time() - time_start) > 60: 
-                json_packet = data_packet.format_mqtt_message()
-                print("Sent MQTT MESSAGE !")
-                print(json_packet)
-                data_packet.reinitialize_packet()
-
-            else: 
-                temperature = thermometer.get_temp()
-                data_packet.add_temp_data(temperature)
-                print("Recorded temperature: ", temperature)
+        if (time.time() - time_last_temp_read) > 10: 
+            time_last_temp_read = time.time()
+            temperature = thermometer.get_temp()
+            data_packet.add_temp_data(temperature)
+            print("Recorded temperature: ", temperature)
+            
+        if (time.time()- time_last_mqtt) > 60: 
+            time_last_mqtt = time.time()
+            json_packet = data_packet.format_mqtt_message()
+            print("Sent MQTT package:")
+            print(json_packet)
+            data_packet.reinitialize_packet()
