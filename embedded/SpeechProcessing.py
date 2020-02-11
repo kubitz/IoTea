@@ -61,6 +61,19 @@ class SpeechToText():
         
         list_sentiments = self._sort_sentiments(list_sentiments)
         return list_sentiments
+    
+    def get_average_sentiment(self, list_sentiments): 
+        """ Returns average sentiment from a whole conversation 
+            The average sentiment is represented by a value between [-1, 1]
+            Input: list of sentiments (returned by get_sentiment)
+            Output: Value between [-1, 1]
+        """
+        average_polarity = 0
+        for sentiment in list_sentiments: 
+            polarity = sentiment[1]
+            average_polarity += polarity 
+        average_polarity /= len(list_sentiments)
+        return average_polarity
 
     def _sort_sentiments(self, list_sentiments): 
         """Sort a list of tuples containing the sentence and its associated sentiment (value between [-1:1])
