@@ -38,6 +38,7 @@ if __name__ == "__main__":
 
     stop_thread = Event()
     thread_sensor = SensorRead_threaded(stop_thread,thermometer)
+    thread_sensor.run()
     print("Initialisation done!!!")
     
     while True: 
