@@ -25,7 +25,7 @@ class DataPacket:
         timestamp = self._get_timestamp() 
         self.sentiment_data.update({timestamp: sentiment_data})       
 
-    def format_mqtt_message(self)
+    def format_mqtt_message(self):
         """ Formats data in json file to be sent via MQTT
         """
         data_packet = {'temperature':self.temp_data,
@@ -34,6 +34,12 @@ class DataPacket:
 
         json_packet = json.dumps(data_packet)
         return json_packet
+
+    def reinitialize_packet(self):
+        """ Reinitialize packet 
+        """
+        self.sentiment_data = dict()
+        self.temp_data = dict()
 
     def _get_timestamp(self): 
         """ Return timestamp since DataPacket instance was initialized
@@ -54,6 +60,7 @@ if __name__ == "__main__":
     print("Initialisation done!!!")
     
     while True: 
+        time_start = time.time()
         if microphone.is_talking(): 
             print("Volume detected!")
             microphone.record_to_file(15)
@@ -68,5 +75,15 @@ if __name__ == "__main__":
                 except: 
                     print("ERROR: Could not process the audio file \n The file probably did not contain speech.")
 
-        temperature = thermometer.get_temp()
-        data_packet.add_temp_data(temperature)
+        if (time.time() - time_start) > 10: 
+
+            if (time.time() - time_start) > 60: 
+                json_packet = data_packet.format_mqtt_message()
+                print("Sent MQTT MESSAGE !")
+                print(json_packet)
+                data_packet.reinitialize_packet()
+
+            else: 
+                temperature = thermometer.get_temp()
+                data_packet.add_temp_data(temperature)
+                print("Recorded temperature: ", temperature)
