@@ -39,7 +39,7 @@ class DS18B20:
             Input: lines from ws1_slave file (list of strings)
             Output: 1 if successful read, 0 otherwise
         """
-        if (lines[0].strip()[-3:]) is not 'YES': 
+        if (lines[0].strip()[-3:]) != 'YES': 
             return 0
         return 1
     
@@ -49,14 +49,13 @@ class DS18B20:
             Output: list of string. Each string contains a line. 
         """
         try: 
-            with  open(self.device_file, 'r') as f: 
-                lines = f.readlines()
-                return lines
+            f = open(device_file, 'r')
+            lines = f.readlines()
+            f.close()
+            return lines
 
         except: 
             print("ERROR: w1_slave file could not be opened (temp sensor)")
-            return 0
- 
 if __name__ == "__main__":
     temp_sensor = DS18B20()
     print(temp_sensor.get_temp())	
