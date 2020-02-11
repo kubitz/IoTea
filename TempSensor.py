@@ -57,8 +57,9 @@ class DS18B20:
         except: 
             print("ERROR: w1_slave file could not be opened (temp sensor)")
 if __name__ == "__main__":
-    temp_sensor = DS18B20()
-    print(temp_sensor.get_temp())	
-    time.sleep(1)    
+    while True: 
+        temp_sensor = DS18B20()
+        print(temp_sensor.get_temp())	
+        time.sleep(1)    
     
 
