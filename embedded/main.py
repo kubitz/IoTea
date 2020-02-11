@@ -50,8 +50,9 @@ if __name__ == "__main__":
                     sentiments = speech_to_text.get_sentiment(conversation)
                     twitter_bot.send_tweet(sentiments[0][0])
                 except: 
-                    print("ERROR: Could not process the audio file")
+                    print("ERROR: Could not process the audio file \n The file probably did not contain speech.")
 
 
-
+            get_temperatureµ
+            send_mqtt
 
