@@ -51,9 +51,11 @@ class DS18B20:
         try: 
             with  open(self.device_file, 'r') as f: 
                 lines = f.readlines()
+                return lines
+
         except: 
             print("ERROR: w1_slave file could not be opened (temp sensor)")
-        return lines
+            return 0
  
 if __name__ == "__main__":
     temp_sensor = DS18B20()
