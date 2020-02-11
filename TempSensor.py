@@ -1,7 +1,9 @@
 
 import glob
 import time
- 
+import paho.mqtt.client as mqtt
+from w1thermsensor import W1ThermSensor
+    
 
 class DS18B20: 
 
@@ -58,9 +60,11 @@ class DS18B20:
             print("ERROR: w1_slave file could not be opened (temp sensor)")
 
 if __name__ == "__main__":
-    while True: 
-        temp_sensor = DS18B20()
-        print(temp_sensor.get_temp())	
-        time.sleep(1)    
+    client = mqtt.Client()
+    temp_sensor = DS18B20()
+    print(temp_sensor.get_temp())	    
+    client.connect("test.mosquitto.org", port=1883)
+    client.publish("IC.embedded/IoTea/test", str(temp))
+ 
     
 
