@@ -18,7 +18,7 @@ class SensorRead_threaded(Thread):
     
     def run(self):
         while not self.stopped.wait(self.read_interval):
-            temperature = self.sensor.get_temperature()
+            temperature = self.sensor.get_temp()
             self.data.append(temperature)
             self.read_count += 1
             print("reading sensor temperature")
@@ -39,6 +39,7 @@ if __name__ == "__main__":
     stop_thread = Event()
     thread_sensor = SensorRead_threaded(stop_thread,thermometer)
     thread_sensor.run()
+    thread_sensor.join()
     print("Initialisation done!!!")
     
     while True: 
@@ -52,8 +53,4 @@ if __name__ == "__main__":
                     twitter_bot.send_tweet(sentiments[0][0])
                 except: 
                     print("ERROR: Could not process the audio file \n The file probably did not contain speech.")
-
-
-            get_temperatureµ
-            send_mqtt
 
