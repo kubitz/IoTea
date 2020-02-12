@@ -24,7 +24,7 @@ client.on_message = on_message
 
 while True:
     print("Entered sleep!")
-    time.sleep(20)
+    time.sleep(1)
     print("Came out of sleep!")
     
     client.subscribe("IC.embedded/IoTea/user/#")
