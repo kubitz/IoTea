@@ -1,15 +1,9 @@
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
-import plotly
-
-
+import webbrowser
 from dash.dependencies import Input, Output
 import json
-
-
-import os
-temp = 22
 
 app = dash.Dash(__name__)
 
@@ -40,37 +34,68 @@ app.layout = html.Div(children=[
 @app.callback(Output('live-update-text', 'children'),
               [Input( 'interval-component', 'n_intervals')])
 def update_metrics(n):
-    with open('data.txt') as json_file:
-        data = json.load(json_file)
-        for p in data['temp']:
-            temp = p["Temperature"]
+    try:
+        with open('data.txt') as json_file:
+                data = json.load(json_file)
+        output = []
+        if data['state'] == 'nodata':
+            output = [html.Div('We have yet to receive data', id='display')]
+        elif data['state'] == 'rising':
+            sentiment = data['sentiment']
+            output = [html.Div('Our temperature sensor is heating up', id='display'),
+                      html.Div('We\'d give your conversation a {0:0.2f}.'.format(sentiment), id='display')
+                      ]
+        elif data['state'] == 'ready':
+            time_left = data['time_left']
+            current_temp = data['current_temp']
+            sentiment = data['sentiment']
+            output = [html.Div('Your tea is at {0:.1f} C.'.format(current_temp), id='display'),
+                      html.Div('You should finish your tea in {0:.0f} minutes.'.format(time_left), id='display'),
+                      html.Div('We\'d give your conversation a {0:0.2f}.'.format(sentiment), id='display')]
+        else:
+            current_temp = data['current_temp']
+            sentiment = data['sentiment']
+            output = [html.Div('Your tea is at {0:.1f} C.'.format(current_temp), id='display'),
+            html.Div('We would not recommend drinking your tea. Make another!', id='display'),
+            html.Div('We\'d give your conversation a {0:0.2f}.'.format(sentiment), id='display')]
+    except:
+        output = [html.Div('We have yet to receive data', id='display')]
 
-    lon, lat, alt = temp,3,4
+    return output
 
-    return [
-        html.Div('Your tea is at {0:.1f} C.'.format(lon), id = 'display'),
-        html.Div('You should finish your tea in {0:.0f} minutes.'.format(lat), id = 'display'),
-        html.Div('We\'d give your conversation a {0:0.0f}.'.format(alt), id = 'display')
-    ]
 
 @app.callback(
     dash.dependencies.Output('output-container-button', 'children'),
     [dash.dependencies.Input('button', 'n_clicks')],
     [dash.dependencies.State('input-box', 'value')])
 def update_output(n_clicks, value):
-    return 'The input value was "{}" and the button has been clicked {} times'.format(
-        value,
-        n_clicks
-    )
+    username = {}
+    username['user'] = value
+
+    with open('output.txt', 'w') as file:
+        file.write(json.dumps(username))
+
+    return 'The input value was "{}" and the button has been clicked {} times'.format(value, n_clicks)
 
 
 # Multiple components can update everytime interval gets fired.
 @app.callback(Output('live-update-graph', 'figure'),
               [Input('interval-component', 'n_intervals')])
 def update_graph_live(n):
-    x = [1,2,4]
-    y = [1,2,4]
-    # Create the graph with subplots
+    try:
+        with open('data.txt') as json_file:
+            data = json.load(json_file)
+            if data['state'] != 'nodata':
+                x = data['times']
+                y = data['temps']
+            else:
+                x = [0]
+                y = [0]
+    except:
+        x = [0]
+        y = [0]
+
+
     fig = {
         "data": [{"type": "line",
                   "x":x ,
@@ -84,5 +109,8 @@ def update_graph_live(n):
     return fig
 
 if __name__ == '__main__':
+    #open a webbrowser to the default IP adress
+    webbrowser.open( 'http://127.0.0.1:8050/', new=2)
+    #Launch the server
     app.run_server(debug=True)
 
