@@ -2,8 +2,6 @@
 import glob
 import time
 import paho.mqtt.client as mqtt
-from w1thermsensor import W1ThermSensor
-    
 
 class DS18B20: 
 
