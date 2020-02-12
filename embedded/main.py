@@ -89,7 +89,7 @@ if __name__ == "__main__":
             data_packet.add_temp_data(temperature)
             print("Recorded temperature: ", temperature)
             
-        if (time.time()- time_last_mqtt) > 45: 
+        if (time.time()- time_last_mqtt) > 20: 
             time_last_mqtt = time.time()
             json_packet = data_packet.format_mqtt_message()
             client.publish("IC.embedded/IoTea/test", json_packet)
