@@ -1,7 +1,7 @@
 from RecordMic import Microphone
 from TwitterBot import TwitterBot
 from SpeechProcessing import SpeechToText
-from Temp import TemperatureSensor
+from TempSensor import DS18B20
 import paho.mqtt.client as mqtt
 import ssl 
 import time
@@ -53,7 +53,7 @@ if __name__ == "__main__":
     microphone = Microphone()
     twitter_bot = TwitterBot()
     speech_to_text = SpeechToText()
-    thermometer = TemperatureSensor()
+    thermometer = DS18B20()
     data_packet  = DataPacket()
     client = mqtt.Client()
     client.connect("test.mosquitto.org", port=8080)

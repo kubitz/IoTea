@@ -56,6 +56,7 @@ class DS18B20:
         except: 
             print("ERROR: w1_slave file could not be opened (temp sensor)")
 
+
 if __name__ == "__main__":
     #client = mqtt.Client()
     array = []
