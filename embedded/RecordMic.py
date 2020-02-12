@@ -27,6 +27,7 @@ class Microphone():
             Output: 1 if max volume is above set threshold. 
         """
         volume = self.get_volume()
+        print(volume)
         if self.verbose: 
             print("volume: ", volume)
         if volume > VOLUME_THRESHOLD: 
