@@ -54,8 +54,22 @@ class DataPacket:
         timestamp = elapsed_time.total_seconds()
         return timestamp
 
+user = None
 
-
+def on_message(client, userdata, message):
+    global user
+    data = json.loads(message.payload)
+    user = data.get('user')
+    
+def get_username(client): 
+    global user
+    client.subscribe("IC.embedded/IoTea/user/#")
+    time.sleep(0.25)
+    for iteration in range(3):
+        client.loop()
+    client.unsubscribe("IC.embedded/IoTea/user/#")
+    time.sleep(0.25)
+    return user
 
 
 
@@ -84,7 +98,7 @@ if __name__ == "__main__":
             if conversation is not None: 
                 try: 
                     sentiments = speech_to_text.get_sentiment(conversation)
-                    username = receiver_mqtt.get_username()
+                    username = get_username(client)
                     twitter_bot.send_tweet(sentiments[0][0], user=username)
                     average_sentiment = speech_to_text.get_average_sentiment(sentiments)
                     data_packet.add_sentiment_data(average_sentiment)
