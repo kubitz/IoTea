@@ -8,7 +8,7 @@ import ssl
 import time
 from datetime import datetime
 import json
-
+from MqttUtils import MQTT_RECEIVER
 class DataPacket: 
     def __init__(self): 
         self.temp_time = []
@@ -54,12 +54,20 @@ class DataPacket:
         timestamp = elapsed_time.total_seconds()
         return timestamp
 
+
+
+
+
+
+
+
 if __name__ == "__main__":
     microphone = Microphone()
     twitter_bot = TwitterBot()
     speech_to_text = SpeechToText()
     thermometer = DS18B20()
     data_packet  = DataPacket()
+    receiver_mqtt = MQTT_RECEIVER()
     client = mqtt.Client()
     client.tls_set(ca_certs="mosquitto.org.crt", certfile="client.crt",keyfile="client.key",tls_version=ssl.PROTOCOL_TLSv1_2)
     client.connect("test.mosquitto.org", port=8884)
@@ -76,7 +84,8 @@ if __name__ == "__main__":
             if conversation is not None: 
                 try: 
                     sentiments = speech_to_text.get_sentiment(conversation)
-                    twitter_bot.send_tweet(sentiments[0][0])
+                    username = receiver_mqtt.get_username()
+                    twitter_bot.send_tweet(sentiments[0][0], user=username)
                     average_sentiment = speech_to_text.get_average_sentiment(sentiments)
                     data_packet.add_sentiment_data(average_sentiment)
 

@@ -5,7 +5,7 @@
 import paho.mqtt.client as mqtt
 import ssl 
 import json
-
+import time
 def on_message(client, userdata, message):
     print("Received message:{} on topic{}".format(message.payload, message.topic))
     data = json.loads(message.payload)
@@ -20,8 +20,15 @@ def on_message(client, userdata, message):
 client = mqtt.Client()
 client.tls_set(ca_certs="mosquitto.org.crt",certfile="client.crt",keyfile="client.key",tls_version=ssl.PROTOCOL_TLSv1_2)
 client.connect("test.mosquitto.org", port=8884)
-client.subscribe("IC.embedded/IoTea/user/#")
 client.on_message = on_message
 
 while True:
-    client.loop()
+    print("Entered sleep!")
+    time.sleep(20)
+    print("Came out of sleep!")
+    
+    client.subscribe("IC.embedded/IoTea/user/#")
+    time.sleep(0.25)
+    for iteration in range(3):
+        client.loop()
+    client.unsubscribe("IC.embedded/IoTea/user/#")
