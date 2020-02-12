@@ -30,9 +30,9 @@ class TwitterBot():
         """
         hashtags = self.get_hastags()
         if user is None: 
-            tweet = "DATA BREACH! an IoTea user said: \n {}.\n {}".format(text, hashtags)
+            tweet = "DATA BREACH! an IoTea user said: \n {}\n {}".format(text, hashtags)
         else: 
-            tweet = "DATA BREACH! {} said: \n {}.\n {}".format(user, text, hashtags)
+            tweet = "DATA BREACH! {} said: \n {}\n {}".format(user, text, hashtags)
 
         return tweet
 
