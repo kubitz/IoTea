@@ -24,6 +24,12 @@ def is_sensor_ready(list_of_temps):
         Input: matched list of temperatures ordered by time of recording
         Output: 1 if the sensor is ready, 0 otherwise
     """
+    number_readings = len(list_of_temps)
+    if (number_readings < 2):
+        print("ERROR: at least two readings are needed to check if sensor is ready") 
+        return Exception
+    else: 
+        last_two_reads = list_of_temps[-2:]
     pass
 
 if __name__ == "__main__":
