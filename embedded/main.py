@@ -1,5 +1,4 @@
 #!/usr/bin/python
-import mqtt_receiver
 from RecordMic import Microphone
 from TwitterBot import TwitterBot
 from SpeechProcessing import SpeechToText
@@ -17,14 +16,14 @@ class DataPacket:
         self.sentiment_data = []
         self.start_time = datetime.now()
 
-    def add_temp_data(self, temp_data): 
+    def add_temp_data(self, temp_datapoint): 
         """ Adds a temperature data point to class instance with a timestamp
         """
         timestamp = self._get_timestamp()
-        self.temp_time.append(timestamp)
+        self.temp_time.append(int(timestamp))
         self.temp_data.append(temp_data)       
 
-    def add_sentiment_data(self, sentiment_data): 
+    def add_sentiment_data(self, sentiment_datapoint): 
         """ Adds a sentiment data point to class instance with a timestamp
         """
         self.sentiment_data.append(sentiment_data)
