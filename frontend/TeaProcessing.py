@@ -30,7 +30,12 @@ def is_sensor_ready(list_of_temps):
         return Exception
     else: 
         last_two_reads = list_of_temps[-2:]
-    pass
+
+        if (last_two_reads[0] > last_two_reads[1]): 
+            return 0
+        else:
+            return 1
+    
 
 if __name__ == "__main__":
     final_temp = input("Enter final temperature: ")
