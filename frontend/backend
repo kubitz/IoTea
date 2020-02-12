@@ -1,0 +1,39 @@
+import paho.mqtt.client as mqtt
+import json
+#called when MQTT message comes
+
+
+time = 0
+x = []
+y = []
+def on_message(client, userdata, message):
+    global time
+    time += 10
+    x.append(time)
+    #print("Received message:{} on topic{}".format(message.payload, message.topic))
+    temp = float(message.payload)
+    y.append(temp)
+    print(x)
+    data = {}
+    data['temp'] = []
+    data['temp'].append({
+        'x': x,
+        'y': y,
+        'temp':temp
+    })
+
+    with open('data.txt', 'w') as outfile:
+        json.dump(data, outfile)
+
+
+
+
+
+client = mqtt.Client()
+client.connect("test.mosquitto.org", port=1883)
+client.subscribe("IC.embedded/IoTea/test/#")
+client.on_message = on_message
+
+while 1==1:
+    client.loop()
+
