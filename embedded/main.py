@@ -21,12 +21,12 @@ class DataPacket:
         """
         timestamp = self._get_timestamp()
         self.temp_time.append(int(timestamp))
-        self.temp_data.append(temp_data)       
+        self.temp_data.append(temp_datapoint)       
 
     def add_sentiment_data(self, sentiment_datapoint): 
         """ Adds a sentiment data point to class instance with a timestamp
         """
-        self.sentiment_data.append(sentiment_data)
+        self.sentiment_data.append(sentiment_datapoint)
 
     def format_mqtt_message(self):
         """ Formats data in json file to be sent via MQTT
@@ -42,8 +42,8 @@ class DataPacket:
     def reinitialize_packet(self):
         """ Reinitialize packet 
         """
-        self.sentiment_data = dict()
-        self.temp_data = dict()
+        self.sentiment_data = []
+        self.temp_data = []
 
     def _get_timestamp(self): 
         """ Return timestamp since DataPacket instance was initialized
@@ -82,7 +82,7 @@ if __name__ == "__main__":
                 except: 
                     print("ERROR: Could not process the audio file \n The file probably did not contain speech.")
 
-        if (time.time() - time_last_temp_read) > 10: 
+        if (time.time() - time_last_temp_read) > 5: 
             time_last_temp_read = time.time()
             temperature = thermometer.get_temp()
             data_packet.add_temp_data(temperature)
