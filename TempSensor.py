@@ -4,7 +4,6 @@ import time
 import paho.mqtt.client as mqtt
 
 class DS18B20: 
-
     def __init__(self): 
         """ Initialises directory to folder containing file with result of sensor
             This path should not be changed for use with raspberry pi

@@ -56,11 +56,13 @@ if __name__ == "__main__":
     thermometer = TemperatureSensor()
     data_packet  = DataPacket()
     client = mqtt.Client()
+    client.connect("test.mosquitto.org", port=8080)
 
 
     print("Initialisation done!!!")
     time_last_mqtt = time.time()
     time_last_temp_read = time.time()
+    
     while True: 
         if microphone.is_talking(): 
             print("Volume detected!")
@@ -85,6 +87,7 @@ if __name__ == "__main__":
         if (time.time()- time_last_mqtt) > 60: 
             time_last_mqtt = time.time()
             json_packet = data_packet.format_mqtt_message()
+            client.publish("IC.embedded/IoTea/test", json_packet)
             print("Sent MQTT package:")
             print(json_packet)
             data_packet.reinitialize_packet()
