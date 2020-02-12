@@ -44,6 +44,7 @@ class DataPacket:
         """
         self.sentiment_data = []
         self.temp_data = []
+        self.temp_time = []
 
     def _get_timestamp(self): 
         """ Return timestamp since DataPacket instance was initialized
