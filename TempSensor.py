@@ -60,12 +60,16 @@ class DS18B20:
 if __name__ == "__main__":
     #client = mqtt.Client()
     array = []
+    time = []
+    count = 0
     while True: 
-
+        count += 1
         temp_sensor = DS18B20()
         array.append(temp_sensor.get_temp())
+        time.append(count)
         print(array)
-        time.sleep(1)
+        print(time)
+        time.sleep(3)
     #client.connect("test.mosquitto.org", port=1883)
     #client.publish("IC.embedded/IoTea/test", str(temp))
  
