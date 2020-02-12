@@ -56,7 +56,7 @@ if __name__ == "__main__":
     thermometer = DS18B20()
     data_packet  = DataPacket()
     client = mqtt.Client()
-    client.connect("test.mosquitto.org", port=8080)
+    client.connect("test.mosquitto.org", port=1883)
 
 
     print("Initialisation done!!!")
