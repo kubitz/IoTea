@@ -1,3 +1,5 @@
+#!/usr/bin/python
+import mqtt_receiver
 from RecordMic import Microphone
 from TwitterBot import TwitterBot
 from SpeechProcessing import SpeechToText
@@ -5,30 +7,33 @@ from TempSensor import DS18B20
 import paho.mqtt.client as mqtt
 import ssl 
 import time
+from datetime import datetime
 import json
 
 class DataPacket: 
     def __init__(self): 
-        self.temp_data = dict()
-        self.sentiment_data = dict()
-        self.start_time = time.time()
+        self.temp_time = []
+        self.temp_data = []
+        self.sentiment_data = []
+        self.start_time = datetime.now()
 
     def add_temp_data(self, temp_data): 
         """ Adds a temperature data point to class instance with a timestamp
         """
         timestamp = self._get_timestamp()
-        self.temp_data.update({timestamp: temp_data})       
+        self.temp_time.append(timestamp)
+        self.temp_data.append(temp_data)       
 
     def add_sentiment_data(self, sentiment_data): 
         """ Adds a sentiment data point to class instance with a timestamp
         """
-        timestamp = self._get_timestamp() 
-        self.sentiment_data.update({timestamp: sentiment_data})       
+        self.sentiment_data.append(sentiment_data)
 
     def format_mqtt_message(self):
         """ Formats data in json file to be sent via MQTT
         """
-        data_packet = {'temperature':self.temp_data,
+        data_packet = {'temperature':{'time': self.temp_time, 
+                                    'temps':self.temp_data},
                         'sentiment':self.sentiment_data
                         }
 
@@ -45,8 +50,8 @@ class DataPacket:
         """ Return timestamp since DataPacket instance was initialized
             Timestamp is time in seconds since initialisation
         """
-        elapsed_time = time.time() - self.start_time
-        timestamp = time.strftime("%S", time.gmtime(elapsed_time))
+        elapsed_time = datetime.now() - self.start_time
+        timestamp = elapsed_time.total_seconds()
         return timestamp
 
 if __name__ == "__main__":
