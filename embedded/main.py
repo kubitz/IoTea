@@ -2,7 +2,7 @@ from RecordMic import Microphone
 from TwitterBot import TwitterBot
 from SpeechProcessing import SpeechToText
 from Temp import TemperatureSensor
-import paho.mqtt8.client as mqtt
+import paho.mqtt.client as mqtt
 import ssl 
 import time
 import json
@@ -43,9 +43,10 @@ class DataPacket:
 
     def _get_timestamp(self): 
         """ Return timestamp since DataPacket instance was initialized
+            Timestamp is time in seconds since initialisation
         """
         elapsed_time = time.time() - self.start_time
-        timestamp = time.strftime("%H:%M:%S", time.gmtime(elapsed_time))
+        timestamp = time.strftime("%S", time.gmtime(elapsed_time))
         return timestamp
 
 if __name__ == "__main__":
@@ -61,7 +62,6 @@ if __name__ == "__main__":
     time_last_mqtt = time.time()
     time_last_temp_read = time.time()
     while True: 
-        time_start = time.time()
         if microphone.is_talking(): 
             print("Volume detected!")
             microphone.record_to_file(15)
@@ -85,7 +85,6 @@ if __name__ == "__main__":
         if (time.time()- time_last_mqtt) > 60: 
             time_last_mqtt = time.time()
             json_packet = data_packet.format_mqtt_message()
-
             print("Sent MQTT package:")
             print(json_packet)
             data_packet.reinitialize_packet()

@@ -58,11 +58,16 @@ class DS18B20:
             print("ERROR: w1_slave file could not be opened (temp sensor)")
 
 if __name__ == "__main__":
-    client = mqtt.Client()
-    temp_sensor = DS18B20()
-    print(temp_sensor.get_temp())	    
-    client.connect("test.mosquitto.org", port=1883)
-    client.publish("IC.embedded/IoTea/test", str(temp))
+    #client = mqtt.Client()
+    array = []
+    while True: 
+
+        temp_sensor = DS18B20()
+        array.append(temp_sensor.get_temp())
+        print(array)
+        time.sleep(1)
+    #client.connect("test.mosquitto.org", port=1883)
+    #client.publish("IC.embedded/IoTea/test", str(temp))
  
     
 
