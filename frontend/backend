@@ -1,39 +1,173 @@
 import paho.mqtt.client as mqtt
+import ssl
+import os
 import json
-#called when MQTT message comes
+import threading
+from TeaProcessing import *
 
+MIN_TEMP = 50
 
-time = 0
-x = []
-y = []
-def on_message(client, userdata, message):
-    global time
-    time += 10
-    x.append(time)
-    #print("Received message:{} on topic{}".format(message.payload, message.topic))
-    temp = float(message.payload)
-    y.append(temp)
-    print(x)
-    data = {}
-    data['temp'] = []
-    data['temp'].append({
-        'x': x,
-        'y': y,
-        'temp':temp
-    })
+#The max interval of values in minutes
+TIME_RANGE = 15
 
-    with open('data.txt', 'w') as outfile:
-        json.dump(data, outfile)
-
-
-
-
+first_message_received = False
+new_message_received = False
+mqtt_input = {}
 
 client = mqtt.Client()
-client.connect("test.mosquitto.org", port=1883)
-client.subscribe("IC.embedded/IoTea/test/#")
-client.on_message = on_message
+sentiment_data = []
 
-while 1==1:
-    client.loop()
+tea_data = {
+    'time': [],
+    'temp': []
+}
+
+def get_state(current_temp):
+    global tea_data
+    state = ''
+    print(tea_data['temp'])
+    if len(tea_data['temp']) >= 2:
+        rising = is_sensor_ready(tea_data['temp'])
+        if rising:
+            state = 'rising'
+        elif current_temp > MIN_TEMP:
+            state = 'ready'
+        else:
+            state = 'cold'
+    else:
+        state = 'nodata'
+
+    return state
+
+def get_sentiment():
+    global sentiment_data
+    if len(sentiment_data) != 0:
+        current_sentiment = 5 * sentiment_data[-1] + 5
+    else:
+        current_sentiment = 5
+    return current_sentiment
+
+def get_current_temp():
+    global tea_data
+    current_temp = 0
+    if len(tea_data['temp']) != 0:
+        current_temp = tea_data['temp'][-1]
+    return current_temp
+
+def update_tea_data(new_times, new_temps):
+    global tea_data
+    tea_data['time'] += new_times
+    tea_data['temp'] += new_temps
+
+    if len(tea_data['time']) != 0:
+
+        first_time = tea_data['time'][0]
+        last_time = tea_data['time'][-1]
+
+        while last_time - first_time > 60*TIME_RANGE:
+            tea_data['time'].pop(0)
+            tea_data['temp'].pop(0)
+            first_time = tea_data['time'][0]
+            last_time = tea_data['time'][-1]
+
+
+def get_time_to_cool(current_temp, state):
+    if state == 'ready':
+        time = predict_teacup_temp(current_temp, MIN_TEMP)//60
+    else:
+        time = 0
+    return time
+
+def update_sentiment(new_sentiment):
+    global sentiment_data
+    sentiment_data += new_sentiment
+
+def processing():
+    global mqtt_input
+    global new_message_received
+    global first_message_received
+
+    display = {}
+
+    if new_message_received:
+        new_times = mqtt_input['temperature']['time']
+        new_temps = mqtt_input['temperature']['temps']
+        new_sentiment = mqtt_input['sentiment']
+        update_sentiment(new_sentiment)
+        update_tea_data(new_times, new_temps)
+        new_message_received = False
+
+    if first_message_received:
+        current_temp = get_current_temp()
+        state = get_state(current_temp)
+        display['time_left'] = get_time_to_cool(current_temp, state)
+        display['sentiment'] = get_sentiment()
+        display['state'] = state
+        display['times'] = tea_data['time']
+        display['temps'] = tea_data['temp']
+        display['current_temp'] = current_temp
+    else:
+        display['state'] = 'nodata'
+
+    with open('data.txt', 'w') as f:
+        json.dump(display, f, ensure_ascii=False)
+
+    threading.Timer(3, processing).start()
+
+
+def on_message(client, userdata, message):
+    global mqtt_input
+    global message_count
+    global first_message_received
+    global new_message_received
+
+    first_message_received = True
+    new_message_received = True
+
+    content = message.payload
+    print('received')
+    mqtt_input = json.loads(content)
+
+
+def poll_mqtt():
+    try:
+        client.tls_set(ca_certs="mosquitto.org.crt", certfile="client.crt", keyfile="client.key", tls_version=ssl.PROTOCOL_TLSv1_2)
+    except:
+        print("you do not have the required files")
+    try:
+        client.connect("test.mosquitto.org", port=8884)
+    except:
+        print("unable to connect")
+    try:
+        client.subscribe("IC.embedded/IoTea/test/#")
+    except:
+        print("unable to subscribe")
+
+    client.on_message = on_message
+
+
+if __name__ == '__main__':
+
+    # either creates data.txt or replaces it with blank file
+    f = open("data.txt", "w+")
+    f.write('{"state": "nodata"}')
+    f.close()
+
+    #run the front end
+    #os.system('python test.py')
+    # initiate the main processing loop
+    processing()
+
+    poll_mqtt()
+
+    while True:
+        client.loop()
+
+
+
+
+
+
+
+
 
