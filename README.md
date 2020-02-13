@@ -22,6 +22,6 @@ See instructions in Embedded readme
 
 ## Generating MQTT encrypted keys
 All the MQTT encrypted keys have not been uploaded for security reasons. 
-You can generate them yourself by following instructions [here](http://www.steves-internet-guide.com/creating-and-using-client-certificates-with-mqtt-and-mosquitto/)
+You can generate them yourself by following instructions [here](http://www.steves-internet-guide.com/creating-and-using-client-certificates-with-mqtt-and-mosquitto/).
 
 The same key and .crt files need to be copied to both the Pi and the computer. 
