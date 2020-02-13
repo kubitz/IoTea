@@ -43,11 +43,11 @@ For more information on how to get those keys and token, please refer to the off
 folder to begin executing the backend: this will generate a data.txt file for communication between the frontend and the backend, and it will process instruction from the raspberry pi. Finally the frontend.py must be launched in order to initiate the local webserver, which will automatically be opened on your local browser.
 
 This code performs the following:
- *Receives data from the raspberry pi through MQTT
- *Processes information to determine time until Tea is cold, wheter the thermometer is heating up, or if the tea is too cold
- *The frontend displays information on your tea
- *Displays the happiness of your current conversation
- *Outputs the tea temperature in graph form
+ * Receives data from the raspberry pi through MQTT
+ * Processes information to determine time until Tea is cold, wheter the thermometer is heating up, or if the tea is too cold
+ * The frontend displays information on your tea
+ * Displays the happiness of your current conversation
+ * Outputs the tea temperature in graph form
 
 ### File Structure:
 The main.py receives instructions from the raspberry pi, processess them, and output them on a data.txt file in JSON format. The frontend.py uses the dash library in order to run a local webserver for the user interface. The dash library does not work well with the "threading" library or "paho", which is why the mail files are seperated.
@@ -56,10 +56,10 @@ The assets folder stores the CSS data for the layout of the applicatipn.
 
 ### Launching the web app:
 Before launching the following libraries need to be installed:
-*dash
-*json
-*paho
-*threading
+* dash
+* json
+* paho
+* threading
 
 Ensure that the .crt and .key files have been generated and are put into the root directory of the folder as instructed in the following section.
 
