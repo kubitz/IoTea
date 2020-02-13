@@ -39,7 +39,8 @@ For more information on how to get those keys and token, please refer to the off
 
 ## Computer Side:
 
-### Function:folder to begin executing the backend: this will generate a data.txt file for communication between the frontend and the backend, and it will process instruction from the raspberry pi. Finally the frontend.py must be launched in order to initiate the local webserver, which will automatically be opened on your local browser.
+### Function:
+folder to begin executing the backend: this will generate a data.txt file for communication between the frontend and the backend, and it will process instruction from the raspberry pi. Finally the frontend.py must be launched in order to initiate the local webserver, which will automatically be opened on your local browser.
 
 This code performs the following:
  *Receives data from the raspberry pi through MQTT
