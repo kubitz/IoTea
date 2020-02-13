@@ -1,5 +1,9 @@
 # IoTea Source code
 
+**Embedded Folder** contains the code for the Pi
+
+**Frontend Folder** contains the codef for the computer (Web app)
+
 ## Embedded Folder
 This is a python virtual environment and will be run on the pi. This was coded on a Pi zero using Rasbian. 
 
