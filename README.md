@@ -18,6 +18,25 @@ The following functions are implemented in this code:
 All the certification files, and API keys have been removed for security reasons. They need to be re-generated to run this code. 
 See instructions in Embedded readme
 
+### Generating Google API keys
+For the speech-to-text function to work, a file named "apikey.json" needs to be added in the origin/master/embedded folder. 
+This file can be downloaded from [Google Cloud's platform](https://console.cloud.google.com/) after activating the API and setting-up payement details (300$ of free credit at subscription). 
+
+You can find more details on setting-up your Google Cloud API key [here](https://cloud.google.com/iam/docs/creating-managing-service-account-keys).
+
+### Set-up Twitter credentials
+For TwitterBot.py to work, a Twitter developper account needs to be set-up and credentials need to be added to a twitter_credentials.py file, located in the origin/master/embedded folder.
+
+The file should be formated in the following way: 
+~~~~{.python}
+ACCESS_TOKEN = "insert access token here"
+ACCESS_TOKEN_SECRET = "insert access token secret here"
+CONSUMER_KEY = "insert consumer key here"
+CONSUMER_SECRETS = "insert consumer secrets here"
+~~~~
+
+For more information on how to get those keys and token, please refer to the offical [twitter developper documentation](https://developer.twitter.com/en/docs/basics/authentication/oauth-1-0a/obtaining-user-access-tokens)
+
 ## Frontend Folder
 
 ## Generating MQTT encrypted keys
