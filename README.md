@@ -1,6 +1,6 @@
 # IoTea Source code
 
-[alt text](https://ibb.co/QHz9bhZ)
+![iot](https://user-images.githubusercontent.com/57802802/101267235-6f58cf00-374e-11eb-8bbf-c8cae9e32dfa.png)
 
 **Embedded Folder** contains the code for the Pi
 
