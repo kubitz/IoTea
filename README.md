@@ -1,5 +1,7 @@
 # IoTea Source code
 
+[alt text](https://ibb.co/QHz9bhZ)
+
 **Embedded Folder** contains the code for the Pi
 
 **Frontend Folder** contains the codef for the computer (Web app)
